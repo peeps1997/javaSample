@@ -18,7 +18,7 @@ class human {
     public int getMana(){
         return this.mana;
     }
-    void setMana(int inc){
+    public void setMana(int inc){
         this.mana=this.mana+inc;
     }
 }

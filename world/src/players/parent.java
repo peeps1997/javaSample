@@ -1,6 +1,6 @@
 package players;
 
-class parent extends human {
+public class parent extends human {
     int agility;
     public int model;
     private int intelligence;
