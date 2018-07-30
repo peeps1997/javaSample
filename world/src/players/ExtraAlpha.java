@@ -1,5 +1,5 @@
 package players;
 
-public interface extraAlpha {
+public interface ExtraAlpha {
     public void morph();
 }

@@ -1,15 +1,15 @@
 package players;
 
-class human {
+class Human {
     public int hp;
-    public int getHp() {
+    public int getHp() { 
 		return hp;
 	}
 	public void setHp(int hp) {
 		this.hp = hp;
 	}
 	private int mana;
-    human(){
+    Human(){
         System.out.println("Initializing human");
         this.hp=100;
         this.mana=100;

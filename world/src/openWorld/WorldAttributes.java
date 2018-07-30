@@ -1,6 +1,6 @@
 package openWorld;
 
-class worldAttributes {
+class WorldAttribute {
 	private int npc;
 	private int environment;
 	private int sandbox;
@@ -22,7 +22,7 @@ class worldAttributes {
 	void setSandbox(int sandbox) {
 		this.sandbox = sandbox;
 	}
-	worldAttributes(){
+	WorldAttribute(){
 		System.out.println("Loading world Attributes");
 		this.setNpc(10);
 		this.setEnvironment(1);

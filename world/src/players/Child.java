@@ -1,11 +1,11 @@
 package players;
 import java.util.Scanner;
-public class child extends parent implements extraBeta,train {
+public class Child extends Parent implements ExtraBeta,Train {
 	public String nick;
-    public child(int nickValue) {
+    public Child(int nickValue) {
         super();
-//        Scanner sc=new Scanner(System.in);
-//        System.out.println("Enter Nick:");
+//       Scanner sc=new Scanner(System.in);
+//       System.out.println("Enter Nick:");
         this.nick="player"+nickValue;
         System.out.println("Intelligence "+this.getPvt());
         System.out.println("Agility "+this.agility);
@@ -13,7 +13,7 @@ public class child extends parent implements extraBeta,train {
         System.out.println("Physique "+this.model);
     }
     
-    public child(child c) {
+    public Child(Child c) {
     	this.agility=c.agility;
     	this.hp=c.hp;
     	this.model=c.model;
@@ -41,7 +41,8 @@ public class child extends parent implements extraBeta,train {
     	
     }
     public void damageMana(int num) {
-    	this.setMana((this.getMana()-(num*2)));
+    	num*=2;
+    	this.setMana((this.getMana()-num));
     }
     public void showall() {
         System.out.println("Stats");

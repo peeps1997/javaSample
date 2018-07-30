@@ -1,12 +1,12 @@
 package players;
 
-public class parent extends human {
+public class Parent extends Human {
     int agility;
     public int model;
     private int intelligence;
     protected int strength;
 
-    parent() {
+    Parent() {
         super();
         System.out.println("Initializing accessories");
         this.agility = 10;

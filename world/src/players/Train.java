@@ -1,6 +1,6 @@
 package players;
 
-public interface train {
+public interface Train {
 	void trainStrength();
 	void trainIntelligence();
 	void trainAgility();
