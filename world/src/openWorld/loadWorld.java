@@ -1,21 +1,24 @@
 package openWorld;
 import players.child;
+import java.util.concurrent.*;
 import players.parent;
+import java.lang.*;
 public class loadWorld extends worldAttributes{
 	loadWorld(){
 		super();
-		System.out.println("Spawning player");
-		child newPlayer= new child();
-		System.out.println("Player spawned");
-		System.out.println("Player stats");
-		((child) newPlayer).showall();
-		playerThread p1=new playerThread(newPlayer);
-		Thread t1=new Thread(p1);
-		t1.start();
 	}
 	
 	public static void main(String args[]) {
+		int i;
 		loadWorld newWorld=new loadWorld();
+		//ThreadGroup t1=new ThreadGroup("PlayerBunch");
+		Thread t = null;
+		
+		for(i=0;i<10;i++)
+			{t=new Thread( new playerThread(new child(i)));
+			t.start();
+			System.out.println("------------>"+i);
+			}
 		
 		
 	}

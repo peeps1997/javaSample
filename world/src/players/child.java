@@ -2,11 +2,11 @@ package players;
 import java.util.Scanner;
 public class child extends parent implements extraBeta,train {
 	public String nick;
-    public child() {
+    public child(int nickValue) {
         super();
-        Scanner sc=new Scanner(System.in);
-        System.out.println("Enter Nick:");
-        this.nick=sc.next();
+//        Scanner sc=new Scanner(System.in);
+//        System.out.println("Enter Nick:");
+        this.nick="player"+nickValue;
         System.out.println("Intelligence "+this.getPvt());
         System.out.println("Agility "+this.agility);
         System.out.println("Strength "+this.strength);

@@ -10,9 +10,11 @@ public class playerThread implements Runnable{
 	public void run() {
 		try {
 		System.out.println(tc.nick+" deployed");
-		Thread.currentThread().sleep(2000);
-		System.out.println(tc.nick+" is roaming");
+		//Thread.currentThread().sleep(2000);
+		
+		
 		while(this.checkStatus(tc)) {
+			System.out.println(tc.nick+" is roaming");
 			this.fight(tc);
 			
 		}
