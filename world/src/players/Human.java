@@ -11,14 +11,14 @@ class Human {
 	private int mana;
     Human(){
         System.out.println("Initializing human");
-        this.hp=100;
-        this.mana=100;
+        this.setHp(100);
+        this.setMana(100);
         System.out.println("Initialized: hp+100, mana+100");
     }
     public int getMana(){
         return this.mana;
     }
-    public void setMana(int inc){
-        this.mana=this.mana+inc;
+    public void setMana(int mana){
+        this.mana=mana;
     }
 }
