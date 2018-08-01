@@ -45,7 +45,8 @@ public class Child extends Parent implements ExtraBeta,Train {
     }
     
     public void damageHP(int num) {
-    	this.setHp(this.hp-num*num);
+    	this.setHp(this.hp-num);
+    	System.out.println(this.nick+" lost "+num+" hp...");
     	
     }
     public void damageMana(int num) {
