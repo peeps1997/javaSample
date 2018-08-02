@@ -1,6 +1,4 @@
 package openWorld;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.*;
 import players.*;
 public class PlayerThread implements Runnable{
@@ -9,7 +7,6 @@ public class PlayerThread implements Runnable{
 	public final static DamageMeta DmgMeta= new DamageMeta();
 	public static final int MAX_PLAYERS=6;
 	int chance=0;
-	int exit_code=0;
 	int oppIndex=0;
 	static int flag;
 	PlayerThread(Child c){
@@ -32,13 +29,20 @@ public class PlayerThread implements Runnable{
 		
 		
 		while(this.checkStatus(tc)) {
+			System.out.println("-----------------");
 			if( PlayerList.size()==1 && flag==MAX_PLAYERS) {
-				System.out.println(tc.getNick()+" has won");
+				System.out.println(tc.getNick()+"("+tc.getHp()+") ("+ tc.getMana()+") has won");
 				break;
 			}
-			System.out.println(tc.getNick()+"("+tc.getHp()+") is roaming");
+			else if(PlayerList.isEmpty() && flag==MAX_PLAYERS) {
+				System.out.println("Everyone lost");
+				break;
+			
+			}
+			else {
+			System.out.println(tc.getNick()+"("+tc.getHp()+") ("+ tc.getMana()+") is roaming");
 			if( DmgMeta.free==true) {
-				//System.out.println("dmgMeta.free 1= "+ dmgMeta.free);
+				//System.out.println("dmgMeta.free 1= "+ DmgMeta.free);
 				 DmgMeta.free=false;
 				this.setDuelDamage(tc);
 				
@@ -47,29 +51,36 @@ public class PlayerThread implements Runnable{
 			if(tc.getNick()== DmgMeta.rec)
 				{this.deliverDuelDamage(tc);
 				this.notify();}
-			else {this.wait(500);}
+			else {this.wait(50);}
 			
 			
 			 DmgMeta.free=true;
+			 this.monster(tc);
 			
 			//tc.damageHP(1);
 			
 		}
-	
-		}catch(Exception e) {
+			System.out.println("-----------------");
+		}}catch(Exception e) {
 			System.out.println(tc.getNick()+" is facing "+e+" some issues");
 		}
 	}}
 	boolean checkStatus(Child c) {
+		
 		if(c.getHp()<=0) {
-			System.out.println(c.getNick()+ " has no more health left...");
+			System.out.println(c.getNick()+"("+c.getHp()+") ("+ c.getMana()+") has no more health left...");
 			 PlayerList.remove(c);
-			
+			 if(PlayerList.isEmpty()) {
+					return true;
+				}
 			return false;
 		}
 		else if(c.getMana()<=0) {
-			System.out.println(c.getNick()+ " has no more mana left...");
+			System.out.println(c.getNick()+"("+c.getHp()+") ("+ c.getMana()+") has no more mana left...");
 			 PlayerList.remove(c);
+			 if(PlayerList.isEmpty()) {
+					return true;
+				}
 			return false;
 		}
 		
@@ -91,29 +102,39 @@ public class PlayerThread implements Runnable{
 		c.setHp(0);
 	}
 	
-//	void monster(Child c) {
-//		System.out.println("A Monster appeared!!");
-//		this.chance=(int) ((Math.random() * ((20 - 1) + 1)) + 1);
-//		if(this.chance!=0) {
-//			if(this.chance%2==0) {
-//				System.out.println(c.getNick() +" fought and sustained many injuries");
-//				c.damageHP(this.chance);
-//				c.damageMana(this.chance);
-//				c.showall();
-//				//wait();
-//				System.out.println(c.getNick()+" is resting...");
-//				
-//			}
-//			else {
-//				System.out.println(c.getNick()+ " has fled the scene");
-//				//notifyAll();
-//			}
-//			
-//		}
-//		
-//	}
+	void monster(Child c) {
+		System.out.println("A Monster pounced at "+c.getNick());
+		this.chance=(int) ((Math.random() * ((20 - 1) + 1)) + 1);
+		if(this.chance!=0) {
+			if(this.chance%2==0) {
+				
+				c.damageHP(this.chance);
+				c.damageMana(this.chance);
+				//c.showall();
+				//wait();
+				System.out.println(c.getNick() +" fought and sustained many injuries");
+				System.out.println(c.getNick()+" is resting...time "+ new Date(System.currentTimeMillis()));
+				try {
+					Thread.currentThread().sleep(200);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					System.out.println(c.getNick()+ " woke up due to "+ e);
+				}
+				finally{
+					System.out.println(c.getNick()+ " woke up at "+ new Date(System.currentTimeMillis()));
+					
+				}
+			}
+			else {
+				System.out.println(c.getNick()+ " has fled the scene");
+				//notifyAll();
+			}
+			
+		}
+		
+	}
 	List<Child> randomizeList(List<Child> playerList){
-		Collections.shuffle(playerList);
+		Collections.sort(playerList, new DamageMeta());
 		return playerList;
 	}
 	String getPlayerHP(){
@@ -156,16 +177,18 @@ public class PlayerThread implements Runnable{
 		//System.out.println("dmgMeta.free 3= "+ dmgMeta.free);
 		String opponent;
 		this.chance=(int) ((Math.random() * (( PlayerList.size() - 1 ) + 1)));
+		
 		//System.out.println("dmgMeta.free 4= "+ dmgMeta.free+" Chance "+this.chance);
 			//if(this.chance%2==0) {
 			//System.out.println( playerList.get(1).getNick());
 		//	
 		if( PlayerList.get(chance).getNick()!=c.getNick()) {
-			System.out.println(c.getNick() +" fought and sustained many injuries");
+			
 			opponent= PlayerList.get(chance).getNick();
-			System.out.println(tc.getNick()+"'s Opponent "+ opponent);
+			System.out.println(tc.getNick()+" targets "+ opponent);
 			setDamageMeta(this.chance+10, c.getNick(),opponent,false, true);
 			//viewSetDmg();
+			c.damageMana(this.chance+10);
 			this.notify();
 			
 		}
@@ -181,9 +204,9 @@ public class PlayerThread implements Runnable{
 	
 	void deliverDuelDamage(Child c) {
 		if(c.getNick()== DmgMeta.rec) {
-			c.damageHP( DmgMeta.dmg);
 			System.out.println( DmgMeta.author+ " attacked "+c.getNick()+"("+c.getHp()+")"+" for "+  DmgMeta.dmg + " HP");
-			
+			c.damageHP( DmgMeta.dmg);
+			System.out.println(c.getNick() +" fought and sustained many injuries");
 			 DmgMeta.free=true;
 			notify();
 		}

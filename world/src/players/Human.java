@@ -12,8 +12,8 @@ class Human {
     Human(){
         System.out.println("Initializing human");
         this.setHp(100);
-        this.setMana(100);
-        System.out.println("Initialized: hp+100, mana+100");
+        this.setMana(200);
+        System.out.println("Initialized: hp+"+this.getHp()+" , mana+"+this.getMana());
     }
     public int getMana(){
         return this.mana;

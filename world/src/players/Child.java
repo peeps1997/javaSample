@@ -52,6 +52,7 @@ public class Child extends Parent implements ExtraBeta,Train {
     public void damageMana(int num) {
     	num*=2;
     	this.setMana((this.getMana()-num));
+    	System.out.println(this.nick+" lost "+num+" mana...");
     }
     public void showall() {
         System.out.println("Stats");
