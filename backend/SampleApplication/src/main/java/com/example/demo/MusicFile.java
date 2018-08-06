@@ -1,15 +1,36 @@
 package com.example.demo;
 
 import java.io.File;
-import java.io.InputStream;
-
+import java.net.URL;
 import org.apache.tika.metadata.Metadata;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-@Document
+
+@Document(collection="files")
 public class MusicFile {
-	InputStream mfile;
-	@Id
-	Metadata metadata;
 	
+	@Id
+	private String id;
+	
+	private URL url;
+	
+	public String getName() {
+		return this.id;
+	}
+	public void setName(String name) {
+		this.id=name;
+	}
+	
+	public URL getUrl() {
+		return url;
+	}
+	
+	public void setUrl(URL url) {
+		this.url=url;
+	}
+	public MusicFile() {}
+	public MusicFile(String id, URL url) {
+		this.id=id;
+		this.url=url;
+	}
 }
