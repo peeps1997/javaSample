@@ -36,7 +36,8 @@ public class SampleApplication {
                  (GridFsOperations) ctx.getBean("gridFsTemplate");
 
 		String audioFileLoc = "C:\\Users\\ashekhawat\\Desktop\\sample.mp3";
-
+		Metadata metadata;
+		
 		try {
 
 		music.mfile= new FileInputStream(new File(audioFileLoc));
