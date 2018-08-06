@@ -23,6 +23,7 @@
               "src/assets"
             ],
             "styles": [
+              "C:/Users/ashekhawat/Desktop/Simple-app/frontend/node_modules/videogular2/fonts/videogular.css",
               "src/styles.css"
             ],
             "scripts": []

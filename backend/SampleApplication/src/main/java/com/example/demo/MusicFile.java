@@ -10,6 +10,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class MusicFile {
 	InputStream mfile;
 	@Id
-	Metadata metadata = new Metadata();
+	Metadata metadata;
 	
 }
