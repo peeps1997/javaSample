@@ -33,4 +33,9 @@ public class MusicFile {
 		this.id=id;
 		this.url=url;
 	}
+	
+	@Override
+	public String toString() {
+		return " Name: "+this.id+"\t Url: "+this.url+" ";
+	}
 }
