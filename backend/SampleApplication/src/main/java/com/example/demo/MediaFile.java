@@ -1,8 +1,6 @@
 package com.example.demo;
 
-import java.io.File;
 import java.net.URL;
-import org.apache.tika.metadata.Metadata;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,15 +8,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class MediaFile {
 	
 	@Id
-	private String id;
+	private String name;
 	
 	private URL url;
 	
-	public String getId() {
-		return this.id;
+	public String getName() {
+		return this.name;
 	}
-	public void setId(String id) {
-		this.id=id;
+	public void setName(String name) {
+		this.name=name;
 	}
 	
 	public URL getUrl() {
@@ -29,13 +27,13 @@ public class MediaFile {
 		this.url=url;
 	}
 	public MediaFile() {}
-	public MediaFile(String id, URL url) {
-		this.id=id;
+	public MediaFile(String name, URL url) {
+		this.name=name;
 		this.url=url;
 	}
 	
 	@Override
 	public String toString() {
-		return " Name: "+this.id+"\t Url: "+this.url+" ";
+		return " Name: "+this.name+"\t Url: "+this.url+" ";
 	}
 }
