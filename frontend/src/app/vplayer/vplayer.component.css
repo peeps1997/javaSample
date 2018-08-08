@@ -1,0 +1,11 @@
+ul li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+ul li.selected {
+    background-color: #dddddd;
+}
+.list-group-item:hover {
+    background-color: #5c5a5a;
+}
