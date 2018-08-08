@@ -19,37 +19,33 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 @Controller
 @RestController
-@RequestMapping("/music")
-public class MusicController {
+@RequestMapping("/media")
+public class MediaController {
 	
 	@Autowired
-	MusicService musicService;	
+	MediaService mediaService;	
 	ApplicationContext ctx = new AnnotationConfigApplicationContext(MongoConfig.class);
     MongoOperations mongoOperation = (MongoOperations)ctx.getBean("mongoTemplate");
 	@RequestMapping(value="/save", method=RequestMethod.POST)
     public void save(@RequestParam String name, @RequestParam String url) throws MalformedURLException {
-		musicService.addMusicFile(new MusicFile(name, new URL(url)));
+		mediaService.addMusicFile(new MediaFile(name, new URL(url)));
     }
 	
 	@RequestMapping(value="/all", method=RequestMethod.GET)
-	public List<MusicFile> readAll(){
-//		Query query2 = new Query();
-//		query2.addCriteria(Criteria.where("id").is("abc"));
-//		System.out.println(mongoOperation.findOne(query2, MusicFile.class).toString());
-		return musicService.getMusic();
+	public List<MediaFile> readAll(){
+		return mediaService.getMusic();
 	}
-//	
-//	@RequestMapping(value="/{name}", method=RequestMethod.GET)
-//	public MusicFile read(@PathVariable("name") String name) {
-//		//System.out.println(name);
-//		MusicFile mfile=musicService.getMusicFilebyName(name);
-//		System.out.println(mfile.getName()+" : "+mfile.getUrl());
-//		return mfile;
-//	}
-//	
-//	@RequestMapping(value="delete/{name}", method=RequestMethod.DELETE)
-//	public void delete(@PathVariable("name") String name) {
-//		musicService.deleteMusicFile(musicService.getMusicFilebyName(name));
-//	}
+	
+	@RequestMapping(value="/{name}", method=RequestMethod.GET)
+	public Optional<MediaFile> read(@PathVariable("name") String name) {
+		//System.out.println(name);
+		Optional<MediaFile> mfile=mediaService.getMusicFilebyName(name);
+		return mfile;
+	}
+	
+	@RequestMapping(value="delete/{name}", method=RequestMethod.DELETE)
+	public void delete(@PathVariable("name") String name) {
+		mediaService.deleteMusicFile(mediaService.getMusicFilebyName(name));
+	}
 
 }

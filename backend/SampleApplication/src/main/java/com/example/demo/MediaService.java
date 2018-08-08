@@ -14,24 +14,24 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MusicService {
+public class MediaService {
 	@Autowired
-	MusicRepository musicRepo;
+	MediaRepository mediaRepository;
 	
-	public Optional<MusicFile> getMusicFilebyName(String id) {
-	return musicRepo.findById(id);
+	public Optional<MediaFile> getMusicFilebyName(String id) {
+	return mediaRepository.findById(id);
 	}
 	
-	public List<MusicFile> getMusic() {
-		return musicRepo.findAll();
+	public List<MediaFile> getMusic() {
+		return mediaRepository.findAll();
 	}
-	public void addMusicFile(MusicFile file) {
-		 musicRepo.save(file);
+	public void addMusicFile(MediaFile file) {
+		 mediaRepository.save(file);
 		 System.out.println(file.toString()+" added");
 	}
 	
-	public void deleteMusicFile(MusicFile file) {
-		musicRepo.delete(file);
+	public void deleteMusicFile(Optional<MediaFile> optional) {
+		mediaRepository.deleteById(optional.get().getId());
 	}
 
 	

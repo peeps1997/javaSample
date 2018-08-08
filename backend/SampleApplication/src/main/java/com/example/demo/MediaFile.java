@@ -7,18 +7,18 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection="files")
-public class MusicFile {
+public class MediaFile {
 	
 	@Id
 	private String id;
 	
 	private URL url;
 	
-	public String getName() {
+	public String getId() {
 		return this.id;
 	}
-	public void setName(String name) {
-		this.id=name;
+	public void setId(String id) {
+		this.id=id;
 	}
 	
 	public URL getUrl() {
@@ -28,8 +28,8 @@ public class MusicFile {
 	public void setUrl(URL url) {
 		this.url=url;
 	}
-	public MusicFile() {}
-	public MusicFile(String id, URL url) {
+	public MediaFile() {}
+	public MediaFile(String id, URL url) {
 		this.id=id;
 		this.url=url;
 	}

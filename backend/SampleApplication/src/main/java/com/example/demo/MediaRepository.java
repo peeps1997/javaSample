@@ -8,17 +8,17 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MusicRepository extends CrudRepository<MusicFile, String> {
+public interface MediaRepository extends CrudRepository<MediaFile, String> {
 	
 	@Override 
-	List<MusicFile> findAll();
+	List<MediaFile> findAll();
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	MusicFile save(MusicFile file);
+	MediaFile save(MediaFile file);
 	
 	@Override
-	Optional<MusicFile> findById(String id);
+	Optional<MediaFile> findById(String id);
 	
 	@Override
 	boolean existsById(String id);
@@ -27,10 +27,10 @@ public interface MusicRepository extends CrudRepository<MusicFile, String> {
 	void deleteById(String id);
 	
 	@Override
-	void delete(MusicFile entity);
+	void delete(MediaFile entity);
 	
 	@Override
-	List<MusicFile> findAllById(Iterable<String> ids);
+	List<MediaFile> findAllById(Iterable<String> ids);
 	
 
 }
