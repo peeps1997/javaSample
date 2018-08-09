@@ -5,7 +5,9 @@ import { AppComponent } from './app.component';
 import { VplayerComponent } from './vplayer/vplayer.component';
 import { VgCoreModule } from 'videogular2/core';
 import { VgControlsModule } from 'videogular2/controls';
-
+import { HttpClientModule } from '@angular/common/http';
+import {GlobalService} from './services/global.service';
+import { CustomService } from './services/custom.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -14,9 +16,10 @@ import { VgControlsModule } from 'videogular2/controls';
   imports: [
     BrowserModule,
     VgCoreModule,
-    VgControlsModule
+    VgControlsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [GlobalService, CustomService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,3 +1,6 @@
+.container{
+    margin: auto
+}
 ul li {
     padding: 10px;
     cursor: pointer;
@@ -5,7 +8,19 @@ ul li {
 
 ul li.selected {
     background-color: #dddddd;
+    color: black;
 }
 .list-group-item:hover {
     background-color: #5c5a5a;
+}
+
+.fa {
+    
+    color: dimgray;
+    font-size: 150%;
+    font-size: x-large;
+}
+
+label{
+    margin: 5%;
 }
