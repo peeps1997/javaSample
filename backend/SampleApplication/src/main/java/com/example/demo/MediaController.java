@@ -12,13 +12,16 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/media")
 public class MediaController {
 	
@@ -27,8 +30,8 @@ public class MediaController {
 	ApplicationContext ctx = new AnnotationConfigApplicationContext(MongoConfig.class);
     MongoOperations mongoOperation = (MongoOperations)ctx.getBean("mongoTemplate");
 	@RequestMapping(value="/save", method=RequestMethod.POST)
-    public void save(@RequestParam String name, @RequestParam String url) throws MalformedURLException {
-		mediaService.addMusicFile(new MediaFile(name, new URL(url)));
+    public void save(@RequestBody MediaFile mfile) throws MalformedURLException {
+		mediaService.addMusicFile(mfile);
     }
 	
 	@RequestMapping(value="/all", method=RequestMethod.GET)
