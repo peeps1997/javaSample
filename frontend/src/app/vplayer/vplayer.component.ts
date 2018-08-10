@@ -4,6 +4,7 @@ import { CustomService } from '../services/custom.service';
 import { GlobalService } from '../services/global.service';
 import {MediaFile} from '../File';
 import { Observable } from '../../../node_modules/rxjs';
+import { FormControl, FormGroup, FormBuilder, Validators  } from '@angular/forms';
 @Component({
   selector: 'app-vplayer',
   templateUrl: './vplayer.component.html',
@@ -16,8 +17,13 @@ playlist: MediaFile[];
 currentIndex = 0;
 currentItem: MediaFile = null;
 api: VgAPI;
-
-constructor(public customService: CustomService, public globalService: GlobalService) {
+// tslint:disable-next-line:max-line-length
+addedMedia: MediaFile = null;
+mediaForm = new FormGroup({
+    name: new FormControl(),
+    url: new FormControl()
+});
+constructor(private customService: CustomService, private globalService: GlobalService, private fb: FormBuilder) {
 }
 
 onPlayerReady(api: VgAPI) {
@@ -57,12 +63,20 @@ getAllMedia(): void {
 // this.globalService.getData().subscribe(data => this.currentItem = data);
 console.log(this.currentItem);
 }
-onSubmit(mfile: MediaFile) {
-    console.log(mfile.name);
+onSubmit() {
+    if (this.addedMedia != null) {
+    console.log(this.addedMedia.name + ' has been added');
+}   else {
+    console.log('fuck u m8');
 }
+}
+
+
+
 ngOnInit(): void {
-    this.hidden = false;
+this.hidden = false;
 this.getAllMedia();
- this.currentItem =  this.playlist[ this.currentIndex ];
+this.currentItem =  this.playlist[ this.currentIndex ];
+
 }
 }

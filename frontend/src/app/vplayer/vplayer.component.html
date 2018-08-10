@@ -35,17 +35,18 @@
         <a class="list-group-item btn" href="#"><i class="fa fa-plus-circle" (click)="onClickAddItem(!hidden)"></i></a> 
       </ul>
       <div *ngIf="hidden">
-        <form class="form-group" #mediaForm="ngForm" (ngSubmit)="onSubmit(mediaForm.value)">
-          <div class="form-group">
-            <label for="text">Title</label>
-            <input name="name" [(ngModel)]="name" type="text" class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="pwd">URL</label>
-            <input name="url" [(ngModel)]="url" type="text" class="form-control">
-          </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+        <label class="center-block">Name:
+          <input [(ngModel)]="addedMedia.name"  type="text">
+        </label>
+        <label class="center-block">URL:
+            <input [(ngModel)]="addedMedia.url"  type="url">
+        </label>
+        <button type="submit" class="btn btn-success">
+            Save
+        </button>  
+      </div>
+      <div>
+        <p>{{addedMedia.name}}</p>
       </div>
     </div>
   </div>

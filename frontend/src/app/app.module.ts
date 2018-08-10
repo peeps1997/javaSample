@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import {FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { VplayerComponent } from './vplayer/vplayer.component';
 import { VgCoreModule } from 'videogular2/core';
@@ -8,6 +8,7 @@ import { VgControlsModule } from 'videogular2/controls';
 import { HttpClientModule } from '@angular/common/http';
 import {GlobalService} from './services/global.service';
 import { CustomService } from './services/custom.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,7 +18,9 @@ import { CustomService } from './services/custom.service';
     BrowserModule,
     VgCoreModule,
     VgControlsModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [GlobalService, CustomService],
   bootstrap: [AppComponent]
