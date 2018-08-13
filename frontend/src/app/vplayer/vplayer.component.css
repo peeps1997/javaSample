@@ -1,26 +1,54 @@
-.container{
-    margin: auto
+.container {
+  margin: auto
 }
+
 ul li {
-    padding: 10px;
-    cursor: pointer;
+  padding: 10px;
+  cursor: pointer;
 }
 
 ul li.selected {
-    background-color: #dddddd;
-    color: black;
+  background-color: #dddddd;
+  color: black;
 }
+
 .list-group-item:hover {
-    background-color: #5c5a5a;
+  background-color: #5c5a5a;
 }
 
-.fa {
-    
-    color: dimgray;
-    font-size: 150%;
-    font-size: x-large;
+.list-group-item {
+  display: flex;
 }
 
-label{
-    margin: 5%;
+#addButton {
+  color: dimgray;
+  font-size: 150%;
+  font-size: x-large;
+  text-align: center;
+  display: block;
+}
+
+label {
+  margin: 5%;
+  width: -webkit-fill-available;
+  display: inline-grid;
+  text-align: left;
+}
+
+#deleteButton {
+  font-size: small;
+  float: right;
+  width: 15%;
+}
+
+.btn-success {
+  float: center;
+}
+
+.form {
+  text-align: center;
+}
+
+td {
+  width: 85%;
 }

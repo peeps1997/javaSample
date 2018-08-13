@@ -1,50 +1,50 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<div class="container" >
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
+  crossorigin="anonymous">
+<div class="container">
   <div class="row">
-    <div class="col-sm-10">
+    <div class="col-sm-9">
       <vg-player (onPlayerReady)="onPlayerReady($event)" *ngIf="currentItem.url!=null ">
         <vg-controls>
-            <vg-play-pause></vg-play-pause>
-            <vg-playback-button></vg-playback-button>
-            <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
-            <vg-scrub-bar>
-                <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-                <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
-            </vg-scrub-bar>
-            <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
-            <vg-mute></vg-mute>
-            <vg-volume></vg-volume>
-            <vg-fullscreen></vg-fullscreen>
+          <vg-play-pause></vg-play-pause>
+          <vg-playback-button></vg-playback-button>
+          <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+          <vg-scrub-bar>
+            <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+            <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+          </vg-scrub-bar>
+          <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+          <vg-mute></vg-mute>
+          <vg-volume></vg-volume>
+          <vg-fullscreen></vg-fullscreen>
         </vg-controls>
-        
-        <video #media
-        [vgMedia]="media"
-        [src]="currentItem.url"
-        id="singleVideo"
-        preload="auto"
-        crossorigin>
+        <video #media [vgMedia]="media" [src]="currentItem.url" id="singleVideo" preload="auto" crossorigin>
         </video>
-        </vg-player>
+      </vg-player>
     </div>
-    <div class="col-sm-2">
+    <div class="col-sm-3">
       <ul class="list-group list-group-flush">
-        <li class="list-group-item " *ngFor="let item of playlist; let $index = index"
-            (click)="onClickPlaylistItem(item.name, $index)"
-            [class.selected]="item === currentItem"> 
+        <li class="list-group-item " *ngFor="let item of playlist; let $index = index">
+          <td (click)="onClickPlaylistItem(item.name, $index)" [class.selected]="item === currentItem">
             {{ item.name }}
+          </td>
+          <button class="btn" id="deleteButton" (click)="deleteItem(item.name)">
+            <i class="fa fa-trash" aria-hidden="true"></i>
+          </button>
         </li>
-        <a class="list-group-item btn" href="#"><i class="fa fa-plus-circle" (click)="onClickAddItem(!hidden)"></i></a> 
+        <a class="list-group-item btn" id="addButton">
+          <i class="fa fa-plus-circle" (click)="onClickAddItem(!hidden)"></i>
+        </a>
       </ul>
-      <div *ngIf="hidden">
-        <label class="center-block">Name:
-          <input [(ngModel)]="addedMedia.name"  type="text">
+      <div *ngIf="hidden" class="form">
+        <label class="center-block">Title:
+          <input [(ngModel)]="addedMedia.name" type="text">
         </label>
         <label class="center-block">URL:
-            <input [(ngModel)]="addedMedia.url"  type="url">
+          <input [(ngModel)]="addedMedia.url" type="url">
         </label>
         <button type="submit" class="btn btn-success" (click)="onSubmit()">
-            Save
-        </button>  
+          Save
+        </button>
       </div>
     </div>
   </div>

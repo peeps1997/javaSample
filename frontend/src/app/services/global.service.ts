@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from '../../../node_modules/rxjs';
-import {MediaFile} from '../File';
+import { MediaFile } from '../File';
 @Injectable()
 export class GlobalService {
     constructor(private http: HttpClient) {
@@ -14,11 +14,11 @@ export class GlobalService {
         return this.http.post<MediaFile>(url, media);
     }
 
-    deleteData(url: any, options): Observable<any> {
-        return this.http.delete(url, options);
+    deleteData(url: any): Observable<any> {
+        return this.http.delete(url);
     }
     getMedia(): Observable<Array<MediaFile>> {
         // console.log(this.http.get<MediaFile[]>('http://localhost:8080/media/all'));
-        return this.http.get<Array<MediaFile>>('http://localhost:8080/media/all', {responseType: 'json'});
+        return this.http.get<Array<MediaFile>>('http://localhost:8080/media/all', { responseType: 'json' });
     }
 }
