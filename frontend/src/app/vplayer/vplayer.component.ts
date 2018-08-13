@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, AfterContentInit } from '@angular/core';
 import { VgAPI } from 'videogular2/core';
 import { CustomService } from '../services/custom.service';
 import { GlobalService } from '../services/global.service';
@@ -11,14 +11,15 @@ import { FormControl, FormGroup, FormBuilder, Validators  } from '@angular/forms
   styleUrls: ['./vplayer.component.css']
 })
 
-export class VplayerComponent implements OnInit {
+export class VplayerComponent implements OnInit, AfterContentInit {
 hidden = true;
 playlist: MediaFile[];
 currentIndex = 0;
-currentItem: MediaFile = null;
+currentItem: MediaFile = { name: 'Random', url: new URL('http://techslides.com/demos/sample-videos/small.mp4')};
+pageLoaded = true;
 api: VgAPI;
 // tslint:disable-next-line:max-line-length
-addedMedia: MediaFile = null;
+addedMedia: MediaFile = { name: 'Random', url: new URL('http://techslides.com/demos/sample-videos/small.mp4')};
 mediaForm = new FormGroup({
     name: new FormControl(),
     url: new FormControl()
@@ -58,25 +59,30 @@ onClickPlaylistItem(itemName: String, index: number) {
    // this.currentItem = item;
 }
 getAllMedia(): void {
- this.globalService.getMedia().subscribe(data => this.playlist = data);
+ this.globalService.getMedia().subscribe(data => { this.playlist = data ;
+                                                    // tslint:disable-next-line:no-unused-expression
+                                                 console.log('DATA: ' + this.playlist);
+                                                console.log(this.playlist.length); } );
 
 // this.globalService.getData().subscribe(data => this.currentItem = data);
-console.log(this.currentItem);
+// console.log(this.playlist);
 }
 onSubmit() {
-    if (this.addedMedia != null) {
+    if (this.addedMedia.name !== 'Random') {
     console.log(this.addedMedia.name + ' has been added');
+    this.globalService.postData(this.customService.postMedia(), this.addedMedia).subscribe(media => this.getAllMedia());
 }   else {
-    console.log('fuck u m8');
+    console.log('media not added');
 }
 }
 
+ngAfterContentInit() {
+   // console.log(this.playlist);
+    this.hidden = false;
+    this.pageLoaded = true;
+}
 
-
-ngOnInit(): void {
-this.hidden = false;
-this.getAllMedia();
-this.currentItem =  this.playlist[ this.currentIndex ];
-
+ngOnInit() {
+    this.getAllMedia();
 }
 }

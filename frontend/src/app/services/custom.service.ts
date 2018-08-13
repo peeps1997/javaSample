@@ -1,5 +1,6 @@
 import { Injectable } from '../../../node_modules/@angular/core';
 import { Observable } from '../../../node_modules/rxjs';
+import { MediaFile } from '../File';
 
 @Injectable()
 export class CustomService {
@@ -23,4 +24,5 @@ export class CustomService {
         console.log(this.url + 'delete/' + name);
         return this.url + 'delete/' + name;
     }
+
 }

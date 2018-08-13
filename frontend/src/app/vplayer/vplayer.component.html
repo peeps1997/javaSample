@@ -1,8 +1,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<div class="container">
+<div class="container" *ngIf="pageLoaded">
   <div class="row">
     <div class="col-sm-10">
-      <vg-player (onPlayerReady)="onPlayerReady($event)">
+      <vg-player (onPlayerReady)="onPlayerReady($event)" *ngIf="currentItem.url!=null ">
         <vg-controls>
             <vg-play-pause></vg-play-pause>
             <vg-playback-button></vg-playback-button>
@@ -16,6 +16,7 @@
             <vg-volume></vg-volume>
             <vg-fullscreen></vg-fullscreen>
         </vg-controls>
+        
         <video #media
         [vgMedia]="media"
         [src]="currentItem.url"
@@ -36,17 +37,14 @@
       </ul>
       <div *ngIf="hidden">
         <label class="center-block">Name:
-          <input [(ngModel)]="addedMedia.name"  type="text">
+          <input [(ngModel)]="addedMedia.name"  type="text" placeholder="title...">
         </label>
         <label class="center-block">URL:
-            <input [(ngModel)]="addedMedia.url"  type="url">
+            <input [(ngModel)]="addedMedia.url"  type="url" placeholder="url...">
         </label>
-        <button type="submit" class="btn btn-success">
+        <button type="submit" class="btn btn-success" (click)="onSubmit()">
             Save
         </button>  
-      </div>
-      <div>
-        <p>{{addedMedia.name}}</p>
       </div>
     </div>
   </div>
