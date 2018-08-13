@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<div class="container" *ngIf="pageLoaded">
+<div class="container" >
   <div class="row">
     <div class="col-sm-10">
       <vg-player (onPlayerReady)="onPlayerReady($event)" *ngIf="currentItem.url!=null ">
@@ -37,10 +37,10 @@
       </ul>
       <div *ngIf="hidden">
         <label class="center-block">Name:
-          <input [(ngModel)]="addedMedia.name"  type="text" placeholder="title...">
+          <input [(ngModel)]="addedMedia.name"  type="text">
         </label>
         <label class="center-block">URL:
-            <input [(ngModel)]="addedMedia.url"  type="url" placeholder="url...">
+            <input [(ngModel)]="addedMedia.url"  type="url">
         </label>
         <button type="submit" class="btn btn-success" (click)="onSubmit()">
             Save

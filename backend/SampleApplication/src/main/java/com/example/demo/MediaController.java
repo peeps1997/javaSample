@@ -24,29 +24,30 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin("*")
 @RequestMapping("/media")
 public class MediaController {
-	
+
 	@Autowired
-	MediaService mediaService;	
+	MediaService mediaService;
 	ApplicationContext ctx = new AnnotationConfigApplicationContext(MongoConfig.class);
-    MongoOperations mongoOperation = (MongoOperations)ctx.getBean("mongoTemplate");
-	@RequestMapping(value="/save", method=RequestMethod.POST)
-    public void save(@RequestBody MediaFile mfile) throws MalformedURLException {
+	MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
+
+	@RequestMapping(value = "/save", method = RequestMethod.POST)
+	public void save(@RequestBody MediaFile mfile) throws MalformedURLException {
 		mediaService.addMusicFile(mfile);
-    }
-	
-	@RequestMapping(value="/all", method=RequestMethod.GET)
-	public List<MediaFile> readAll(){
+	}
+
+	@RequestMapping(value = "/all", method = RequestMethod.GET)
+	public List<MediaFile> readAll() {
 		return mediaService.getMusic();
 	}
-	
-	@RequestMapping(value="/{name}", method=RequestMethod.GET)
+
+	@RequestMapping(value = "/{name}", method = RequestMethod.GET)
 	public Optional<MediaFile> read(@PathVariable("name") String name) {
-		//System.out.println(name);
-		Optional<MediaFile> mfile=mediaService.getMusicFilebyName(name);
+		// System.out.println(name);
+		Optional<MediaFile> mfile = mediaService.getMusicFilebyName(name);
 		return mfile;
 	}
-	
-	@RequestMapping(value="delete/{name}", method=RequestMethod.DELETE)
+
+	@RequestMapping(value = "delete/{name}", method = RequestMethod.DELETE)
 	public void delete(@PathVariable("name") String name) {
 		mediaService.deleteMusicFile(mediaService.getMusicFilebyName(name));
 	}

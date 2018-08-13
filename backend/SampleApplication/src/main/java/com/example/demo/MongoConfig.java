@@ -11,19 +11,17 @@ import com.mongodb.MongoClient;
 
 @Configuration
 @EnableMongoRepositories
-public class MongoConfig  {
+public class MongoConfig {
 
-	public @Bean
-	MongoDbFactory mongoDbFactory() throws Exception {
+	public @Bean MongoDbFactory mongoDbFactory() throws Exception {
 		return new SimpleMongoDbFactory(new MongoClient(), "mediaDb");
 	}
 
-	public @Bean
-	MongoTemplate mongoTemplate() throws Exception {
-		
+	public @Bean MongoTemplate mongoTemplate() throws Exception {
+
 		MongoTemplate mongoTemplate = new MongoTemplate(mongoDbFactory());
-				
+
 		return mongoTemplate;
-		
+
 	}
 }

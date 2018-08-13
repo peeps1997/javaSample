@@ -16,7 +16,6 @@ hidden = true;
 playlist: MediaFile[];
 currentIndex = 0;
 currentItem: MediaFile = { name: 'Random', url: new URL('http://techslides.com/demos/sample-videos/small.mp4')};
-pageLoaded = true;
 api: VgAPI;
 // tslint:disable-next-line:max-line-length
 addedMedia: MediaFile = { name: 'Random', url: new URL('http://techslides.com/demos/sample-videos/small.mp4')};
@@ -47,25 +46,19 @@ nextVideo() {
 
 playVideo() {
     this.api.play();
-    // console.log(this.currentItem);
-    // console.log(this.playlist);
 }
 
 onClickPlaylistItem(itemName: String, index: number) {
-    // tslint:disable-next-line:no-unused-expression
-   // console.log(itemName);
     this.globalService.getData(this.customService.getMediaByName(itemName)).subscribe(data => {this.currentItem = data; } );
     console.log('Current Item' + this.currentItem.name);
-   // this.currentItem = item;
+
 }
 getAllMedia(): void {
  this.globalService.getMedia().subscribe(data => { this.playlist = data ;
-                                                    // tslint:disable-next-line:no-unused-expression
                                                  console.log('DATA: ' + this.playlist);
                                                 console.log(this.playlist.length); } );
 
-// this.globalService.getData().subscribe(data => this.currentItem = data);
-// console.log(this.playlist);
+
 }
 onSubmit() {
     if (this.addedMedia.name !== 'Random') {
@@ -75,13 +68,10 @@ onSubmit() {
     console.log('media not added');
 }
 }
-
 ngAfterContentInit() {
    // console.log(this.playlist);
     this.hidden = false;
-    this.pageLoaded = true;
 }
-
 ngOnInit() {
     this.getAllMedia();
 }

@@ -8,28 +8,27 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MediaRepository extends CrudRepository<MediaFile, String> {
-	
-	@Override 
+
+	@Override
 	List<MediaFile> findAll();
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	MediaFile save(MediaFile file);
-	
+
 	@Override
-	Optional<MediaFile> findById(String id);
-	
+	Optional<MediaFile> findById(String name);
+
 	@Override
 	boolean existsById(String id);
-	
+
 	@Override
-	void deleteById(String id);
-	
+	void deleteById(String name);
+
 	@Override
 	void delete(MediaFile entity);
-	
+
 	@Override
 	List<MediaFile> findAllById(Iterable<String> ids);
-	
 
 }
