@@ -51,4 +51,5 @@ public class MediaController {
 	public void delete(@PathVariable("name") String name) {
 		mediaService.deleteMusicFile(mediaService.getMusicFilebyName(name));
 	}
+
 }

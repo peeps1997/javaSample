@@ -1,6 +1,5 @@
 package com.example.demo;
 
-import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +15,7 @@ public interface MediaRepository extends CrudRepository<MediaFile, String> {
 	@SuppressWarnings("unchecked")
 	@Override
 	MediaFile save(MediaFile file);
-	
+
 	@Override
 	Optional<MediaFile> findById(String name);
 
@@ -31,4 +30,5 @@ public interface MediaRepository extends CrudRepository<MediaFile, String> {
 
 	@Override
 	List<MediaFile> findAllById(Iterable<String> ids);
+
 }
