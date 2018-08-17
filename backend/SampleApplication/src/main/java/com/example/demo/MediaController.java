@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/media")
+@RequestMapping("/")
 public class MediaController {
 
 	@Autowired
@@ -30,26 +30,26 @@ public class MediaController {
 	ApplicationContext ctx = new AnnotationConfigApplicationContext(MongoConfig.class);
 	MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 
-	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public void save(@RequestBody MediaFile mfile) throws MalformedURLException {
-		mediaService.addMusicFile(mfile);
+	@RequestMapping(value = "/{username}/media/save", method = RequestMethod.POST)
+	public void save(@PathVariable("username") String username, @RequestBody MediaFile mfile) throws MalformedURLException {
+		mediaService.addMusicFile(username, mfile);
 	}
 
-	@RequestMapping(value = "/all", method = RequestMethod.GET)
-	public List<MediaFile> readAll() {
-		return mediaService.getMusic();
+	@RequestMapping(value = "/{username}/media/all", method = RequestMethod.GET)
+	public List<MediaFile> readAll(@PathVariable("username") String username) {
+		return mediaService.getMusic(username);
 	}
 
-	@RequestMapping(value = "/{name}", method = RequestMethod.GET)
-	public Optional<MediaFile> read(@PathVariable("name") String name) {
+	@RequestMapping(value = "/{username}/media/{name}", method = RequestMethod.GET)
+	public MediaFile read(@PathVariable("username") String username, @PathVariable("name") String name) {
 		// System.out.println(name);
-		Optional<MediaFile> mfile = mediaService.getMusicFilebyName(name);
+		MediaFile mfile = mediaService.getMusicFilebyName(username, name);
 		return mfile;
 	}
 
-	@RequestMapping(value = "delete/{name}", method = RequestMethod.DELETE)
-	public void delete(@PathVariable("name") String name) {
-		mediaService.deleteMusicFile(mediaService.getMusicFilebyName(name));
+	@RequestMapping(value = "/{username}/delete/{name}", method = RequestMethod.DELETE)
+	public void delete(@PathVariable("username") String username,  @PathVariable("name") String name) {
+		mediaService.deleteMusicFile(username, name);
 	}
 
 }

@@ -9,22 +9,48 @@ import org.springframework.stereotype.Service;
 public class MediaService {
 	@Autowired
 	MediaRepository mediaRepository;
-
-	public Optional<MediaFile> getMusicFilebyName(String name) {
-		return mediaRepository.findById(name);
+	@Autowired
+	UserRepository userRepository;
+	public MediaFile getMusicFilebyName(String username, String name) {
+		List<MediaFile> mList = userRepository.findById(username).get().getMedia();
+		int index=-1;
+		//System.out.println("Size:"+mList.size());
+		for( int i=0;i<mList.size();i++) {
+			
+			if(name.equals(mList.get(i).getName())) {
+				index=i;
+			}}
+		//System.out.println("INDEX OUTSIDE IF"+index);
+		return mList.get(index);
+	}
+	
+	public Optional<MediaUser> getUserbyId(String username){
+		return userRepository.findById(username);
+	}
+	
+	public List<MediaFile> getMusic(String username) {
+		return userRepository.findById(username).get().getMedia();
 	}
 
-	public List<MediaFile> getMusic() {
-		return mediaRepository.findAll();
+	public void addMusicFile(String username, MediaFile file) {
+		userRepository.findById(username).get().addMedia(file);
+		System.out.println(file.toString() + " added for User: "+ username);
 	}
 
-	public void addMusicFile(MediaFile file) {
-		mediaRepository.save(file);
-		System.out.println(file.toString() + " added");
-	}
-
-	public void deleteMusicFile(Optional<MediaFile> optional) {
-		mediaRepository.deleteById(optional.get().getName());
+	public void deleteMusicFile(String username, String name) {
+		List<MediaFile> mList = userRepository.findById(username).get().getMedia();
+		MediaUser mediaUser = userRepository.findById(username).get();
+		int index=-1;
+		//System.out.println(mList.size() + "Name to be deleted" + name);
+		for( int i=0;i<mList.size();i++) 
+			if(name.equals(mList.get(i).getName())) {
+				index=i;
+			//	System.out.println("Inside If INDEX: "+ index);
+			}
+		//System.out.println("Outside If INDEX: "+ index);
+		mList.remove(index);
+		mediaUser.setMedia(mList);
+		userRepository.save(mediaUser);
 	}
 
 }
