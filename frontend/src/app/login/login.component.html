@@ -1,0 +1,7 @@
+<div class="row">
+  <div class="form-group" (ngSubmit)="onSubmit()">
+    <input type="text" class="form-control" required [(ngModel)]="currentUser.id" name="username" placeholder="username">
+    <input type="password" class="form-control" required [(ngModel)]="currentUser.password" name="password" placeholder="password">
+    <button type="submit" class="btn btn-success" (click)="onSubmit()">Submit</button>
+  </div>
+</div>
