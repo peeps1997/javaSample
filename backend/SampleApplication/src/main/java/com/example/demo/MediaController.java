@@ -27,9 +27,6 @@ public class MediaController {
 
 	@Autowired
 	MediaService mediaService;
-	ApplicationContext ctx = new AnnotationConfigApplicationContext(MongoConfig.class);
-	MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
-
 	@RequestMapping(value = "/{username}/media/save", method = RequestMethod.POST)
 	public void save(@PathVariable("username") String username, @RequestBody MediaFile mfile) throws MalformedURLException {
 		mediaService.addMusicFile(username, mfile);

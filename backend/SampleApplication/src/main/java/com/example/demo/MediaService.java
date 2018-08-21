@@ -33,7 +33,9 @@ public class MediaService {
 	}
 
 	public void addMusicFile(String username, MediaFile file) {
-		userRepository.findById(username).get().addMedia(file);
+		MediaUser mUser = userRepository.findById(username).get();
+		mUser.addMedia(file);
+		userRepository.save(mUser);		
 		System.out.println(file.toString() + " added for User: "+ username);
 	}
 
