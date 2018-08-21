@@ -24,7 +24,8 @@
             ],
             "styles": [
               "C:/Users/ashekhawat/Desktop/Simple-app/frontend/node_modules/videogular2/fonts/videogular.css",
-              "src/styles.css"
+              "src/styles.css",
+              "./node_modules/font-awesome/css/font-awesome.css"
             ],
             "scripts": []
           },

@@ -11,6 +11,7 @@ import { CustomService } from './services/custom.service';
 import { LoginComponent } from './login/login.component';
 import { RouterModule } from '@angular/router';
 import { routes } from './routes';
+import { AuthService } from './services/auth.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,7 +28,7 @@ import { routes } from './routes';
     RouterModule.forRoot(
       routes)
   ],
-  providers: [GlobalService, CustomService],
+  providers: [GlobalService, CustomService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

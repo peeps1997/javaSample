@@ -38,7 +38,7 @@ label {
 #deleteButton {
   font-size: small;
   float: right;
-  width: 15%;
+  width: 100%;
 }
 
 .btn-success {
