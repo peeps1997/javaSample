@@ -5,14 +5,20 @@ import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,8 +39,8 @@ public class MediaController {
 	}
 
 	@RequestMapping(value = "/{username}/media/all", method = RequestMethod.GET)
-	public List<MediaFile> readAll(@PathVariable("username") String username) {
-		return mediaService.getMusic(username);
+	public ResponseEntity<List<MediaFile>> readAll(@PathVariable("username") String username) {
+		return ResponseEntity.status(HttpStatus.OK).headers(getRoleHeader(username)).body(mediaService.getMusic(username));
 	}
 
 	@RequestMapping(value = "/{username}/media/{name}", method = RequestMethod.GET)
@@ -48,5 +54,10 @@ public class MediaController {
 	public void delete(@PathVariable("username") String username,  @PathVariable("name") String name) {
 		mediaService.deleteMusicFile(username, name);
 	}
-
+	
+	HttpHeaders getRoleHeader(String username) {
+	HttpHeaders header = new HttpHeaders();
+	header.set("Role",  mediaService.getUserbyId(username).get().getRole());
+	return header;
+	}
 }

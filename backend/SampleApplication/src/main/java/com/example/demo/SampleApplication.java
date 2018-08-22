@@ -23,26 +23,25 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import com.example.demo.*;
+
 @ComponentScan
 @SpringBootApplication
 public class SampleApplication {
-	
+
 	@Autowired
-	 MediaRepository mediaRepo;
+	MediaRepository mediaRepo;
 	@Autowired
-	static
-	UserRepository userRepository;
-	
+	static UserRepository userRepository;
+
 	@Autowired
 	static MediaService mediaService;
+
 	public static void main(String[] args) throws Exception {
-		
+
 		SpringApplication.run(SampleApplication.class, args);
-		ApplicationContext ctx = 
-				new AnnotationConfigApplicationContext(MongoConfig.class);
-			MongoOperations mongoOperation = 
-				(MongoOperations) ctx.getBean("mongoTemplate");
-		
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(MongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
+
 //		List<MediaFile> mfile = mongoOperation.findAll(MediaFile.class, "files");
 //		MediaUser mUser1 = new MediaUser("walle", mfile, "hidden", "ADMIN" );
 //		MediaUser mUser2 = new MediaUser("cr7", mfile, "akie", "ADMIN" );
@@ -63,7 +62,8 @@ public class SampleApplication {
 	@EnableWebSecurity
 	public static class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-		public UserRepository userRepo; 
+		public UserRepository userRepo;
+
 //		@Bean
 //		InMemoryUserDetailsManager userDetailsManager() {
 //
@@ -78,47 +78,48 @@ public class SampleApplication {
 //		
 		@Bean
 		InMemoryUserDetailsManager userDetailsManager() {
-			ApplicationContext ctx = 
-					new AnnotationConfigApplicationContext(MongoConfig.class);
-				MongoOperations mongoOperation = 
-					(MongoOperations) ctx.getBean("mongoTemplate");
+			ApplicationContext ctx = new AnnotationConfigApplicationContext(MongoConfig.class);
+			MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 			try {
-				
-			List<MediaUser> userList = mongoOperation.findAll(MediaUser.class, "Users");
-			@SuppressWarnings("deprecation")
-			UserBuilder builder = User.withDefaultPasswordEncoder();
-			List<UserDetails> userDetailList = new ArrayList<UserDetails>();
-			userList.get(0).toString();
-			userList.get(1).toString();
-			userList.get(2).toString();
-			userList.get(3).toString();
-			for( MediaUser mUser : userList ) {
-			System.out.println(mUser.toString());
-			 UserDetails user = builder.username(mUser.getUsername())
-					 					.password(mUser.getPassword())
-					 					 .roles(mUser.getRole()).build();
-			 //System.out.println(user);
-			 userDetailList.add(user);
-			 }
-			return new InMemoryUserDetailsManager(userDetailList);
-			}catch(Exception e) {
+
+				List<MediaUser> userList = mongoOperation.findAll(MediaUser.class, "Users");
+				@SuppressWarnings("deprecation")
+				UserBuilder builder = User.withDefaultPasswordEncoder();
+				List<UserDetails> userDetailList = new ArrayList<UserDetails>();
+				userList.get(0).toString();
+				userList.get(1).toString();
+				userList.get(2).toString();
+				userList.get(3).toString();
+				for (MediaUser mUser : userList) {
+					System.out.println(mUser.toString());
+					UserDetails user = builder.username(mUser.getUsername()).password(mUser.getPassword())
+							.roles(mUser.getRole()).build();
+					System.out.println(user);
+					userDetailList.add(user);
+				}
+				return new InMemoryUserDetailsManager(userDetailList);
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return null;
-			
+
 		}
 
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
-			
-			http.httpBasic().and().authorizeRequests().antMatchers("/**")
-			.hasRole("ADMIN").and().csrf().disable();
+
+			http.httpBasic()
+					// .and().authorizeRequests().antMatchers("/**").permitAll()
+					.and().authorizeRequests().antMatchers("/{username}/delete/**").hasRole("ADMIN").and()
+					.authorizeRequests().antMatchers("/{username}/media/**").hasAnyRole("ADMIN", "USER")
+					// .and().authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll()
+					.and().csrf().disable();
 		}
-		
+
 		@Override
-	    public void configure(WebSecurity web) throws Exception {
-	        web.ignoring().antMatchers(HttpMethod.OPTIONS,"/**");
-	    }
+		public void configure(WebSecurity web) throws Exception {
+			web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
+		}
 	}
 
 }

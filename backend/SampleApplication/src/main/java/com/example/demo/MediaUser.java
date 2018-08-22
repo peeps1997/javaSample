@@ -25,7 +25,7 @@ public class MediaUser {
 		this.password = getMD5(password);
 	}
 	public String getRole() {
-		return "ADMIN";
+		return this.role;
 	}
 
 	public void setRole(String role) {
