@@ -14,9 +14,9 @@ export class LoginComponent implements OnInit, OnChanges {
 
   constructor(private authService: AuthService, private router: Router) { }
   onSubmit() {
-    console.log(this.currentUser.id);
+    // console.log(this.currentUser.id);
     this.currentUser.password = md5(this.currentUser.password);
-    console.log(btoa(String(this.currentUser.id + ':' + this.currentUser.password)));
+    // console.log(btoa(String(this.currentUser.id + ':' + this.currentUser.password)));
     this.authService.login(this.currentUser);
     this.router.navigate(['/user/' + this.currentUser.id]);
   }
@@ -27,7 +27,6 @@ export class LoginComponent implements OnInit, OnChanges {
   ngOnInit() {
   }
   ngOnChanges() {
-    console.log('UserChange' + this.currentUser.id);
+    // console.log('UserChange' + this.currentUser.id);
   }
-
 }

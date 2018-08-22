@@ -16,17 +16,17 @@ export class AuthService {
     @Output() change: EventEmitter<String> = new EventEmitter();
     @Output() user: EventEmitter<MediaUser> = new EventEmitter();
     login(loginUser: MediaUser) {
-        console.log(loginUser);
+        // console.log(loginUser);
         this.currentUser = loginUser;
-        console.log('Current User :' + this.currentUser.id);
+        // console.log('Current User :' + this.currentUser.id);
         //  this.user.emit(this.currentUser);
         this.subject.next(this.currentUser);
         this.authSubject.next(btoa(String(this.currentUser.id + ':' + this.currentUser.password)));
         this.isLoggedIn.next(true);
-        console.log('BTOA: ' + btoa(String(this.currentUser.id + ':' + this.currentUser.password)));
+        // console.log('BTOA: ' + btoa(String(this.currentUser.id + ':' + this.currentUser.password)));
     }
     getCurrentUser(): Observable<any> {
-        console.log('Inside getCurrentUser() ' + this.currentUser.id);
+        // console.log('Inside getCurrentUser() ' + this.currentUser.id);
         return this.subject.asObservable();
     }
 

@@ -13,17 +13,20 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { Router } from '../../../node_modules/@angular/router';
+import { HttpHeaders } from '../../../node_modules/@angular/common/http';
 @Component({
   selector: 'app-vplayer',
   templateUrl: './vplayer.component.html',
   styleUrls: ['./vplayer.component.css']
 })
 export class VplayerComponent implements OnInit, AfterContentInit {
+  userHeader: HttpHeaders;
   isLoggedIn = false;
   currentUser: MediaUser;
   hidden = true;
   playlist: MediaFile[];
   currentIndex = 0;
+  respStatus = 0;
   currentItem: MediaFile = {
     name: '',
     url: new URL('http://techslides.com/demos/sample-videos/small.mp4')
@@ -64,12 +67,17 @@ export class VplayerComponent implements OnInit, AfterContentInit {
 
   onClickAddItem(hidden: boolean) {
     this.hidden = hidden;
-    console.log(this.hidden);
+    // console.log(this.hidden);
   }
   deleteItem(itemName: String) {
     this.globalService
       .deleteData(this.customService.deleteMedia(itemName))
-      .subscribe(media => this.getAllMedia());
+      .subscribe(resp => {
+        if (resp['status'] === 403) {
+          this.currentUser.role = 'USER';
+          console.log('USER ROLE' + this.currentUser.role);
+        }
+      });
   }
   nextVideo() {
     this.currentIndex++;
@@ -89,26 +97,42 @@ export class VplayerComponent implements OnInit, AfterContentInit {
   onClickPlaylistItem(itemName: String, index: number) {
     this.globalService
       .getData(this.customService.getMediaByName(itemName))
-      .subscribe(data => {
-        this.currentItem = data;
+      .subscribe(resp => {
+        this.currentItem = resp['body'];
+        // console.log(resp.toString);
       });
-    console.log('Current Item' + this.currentItem.name);
+    // console.log('Current Item' + this.currentItem.name);
   }
   getAllMedia(): void {
-    this.globalService.getMedia(this.customService.getAllMedia()).subscribe(data => {
-      this.playlist = data;
-      console.log('DATA: ' + this.playlist);
-      console.log(this.playlist.length);
-    });
+    // console.log('INSIDE GET ALL MEDIA');
+    this.globalService.getMedia(this.customService.getAllMedia()).subscribe(
+      resp => {
+        this.respStatus = resp['status'];
+        // console.log('STATUS ' + this.respStatus);
+        this.playlist = resp['body'];
+        // console.log('PLaylist:' + this.playlist);
+        // console.log(resp);
+        // console.log('CURRENT USER ROLE' + resp['headers'].get['Role']);
+        // else {
+        //   this.router.navigate(['/login']);
+        // }
+      },
+      () => {
+        if (this.respStatus !== 200) {
+
+          // console.log('INSIDE IF' + this.respStatus);
+          this.router.navigate(['/login']);
+        }
+      });
   }
   onSubmit() {
     if (this.addedMedia.name !== 'Random') {
-      console.log(this.addedMedia.name + ' has been added');
+      // console.log(this.addedMedia.name + ' has been added');
       this.globalService
         .postData(this.customService.postMedia(), this.addedMedia)
         .subscribe(media => this.getAllMedia());
     } else {
-      console.log('media not added');
+      // console.log('media not added');
     }
   }
   logout() {
@@ -117,20 +141,20 @@ export class VplayerComponent implements OnInit, AfterContentInit {
   ngAfterContentInit() {
     // console.log(this.playlist);
     this.hidden = false;
+    // console.log('In After Content Init');
   }
   ngOnInit() {
     this.authService.isLoggedInObs.subscribe(isLoggedIn => this.isLoggedIn = isLoggedIn);
-    console.log('Logged In: ' + this.isLoggedIn);
+    // console.log('Logged In: ' + this.isLoggedIn);
     if (this.isLoggedIn === false) {
-      console.log('Redirecting : ' + this.isLoggedIn);
-      this.router.navigate(['/login']);
+      // console.log('Redirecting : ' + this.isLoggedIn);
+      this.logout();
     }
     this.authService.currentObs.subscribe(currentUser => {
       this.currentUser = currentUser;
-      console.log(currentUser);
+      // console.log(currentUser);
     });
-    console.log('Inside Vplayer' + this.currentUser.id);
+    // console.log('Inside Vplayer' + this.currentUser.id);
     this.getAllMedia();
-
   }
 }
