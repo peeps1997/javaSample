@@ -77,6 +77,7 @@ export class VplayerComponent implements OnInit, AfterContentInit {
           this.currentUser.role = 'USER';
           console.log('USER ROLE' + this.currentUser.role);
         }
+        this.getAllMedia();
       });
   }
   nextVideo() {

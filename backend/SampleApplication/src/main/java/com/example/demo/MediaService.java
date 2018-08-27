@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class MediaService {
 	@Autowired
-	MediaRepository mediaRepository;
-	@Autowired
 	UserRepository userRepository;
 	public MediaFile getMusicFilebyName(String username, String name) {
 		List<MediaFile> mList = userRepository.findById(username).get().getMedia();
@@ -28,15 +26,20 @@ public class MediaService {
 		return userRepository.findById(username);
 	}
 	
+	List<MediaUser> getUsers(){
+		return userRepository.findAll();
+	}
+	
 	public List<MediaFile> getMusic(String username) {
 		return userRepository.findById(username).get().getMedia();
 	}
 
-	public void addMusicFile(String username, MediaFile file) {
+	public MediaUser addMusicFile(String username, MediaFile file) {
 		MediaUser mUser = userRepository.findById(username).get();
 		mUser.addMedia(file);
 		userRepository.save(mUser);		
 		System.out.println(file.toString() + " added for User: "+ username);
+		return mUser;
 	}
 
 	public void deleteMusicFile(String username, String name) {

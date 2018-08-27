@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,8 +42,13 @@ public class SampleApplication {
 		SpringApplication.run(SampleApplication.class, args);
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(MongoConfig.class);
 		MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
-
-//		List<MediaFile> mfile = mongoOperation.findAll(MediaFile.class, "files");
+//		mongoOperation.createCollection(MediaUser.class);
+//		mongoOperation.createCollection(MediaFile.class);
+		MediaFile m1 = new MediaFile("Earth",new URL("http://static.videogular.com/assets/videos/videogular.mp4"));
+		MediaFile m2 = new MediaFile("Bigger Meltdowns",new URL("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4"));
+		List<MediaFile> mfile = new ArrayList<MediaFile>();
+		mfile.add(m1);
+		mfile.add(m2);
 //		MediaUser mUser1 = new MediaUser("walle", mfile, "hidden", "ADMIN" );
 //		MediaUser mUser2 = new MediaUser("cr7", mfile, "akie", "ADMIN" );
 //		MediaUser mUser3 = new MediaUser("evader", mfile, "tusick", "ADMIN" );
@@ -51,9 +57,9 @@ public class SampleApplication {
 //		mongoOperation.save(mUser2, "Users");
 //		mongoOperation.save(mUser3, "Users");
 //		mongoOperation.save(mUser4, "Users");
-//		MediaUser mUser1 = mongoOperation.findById("walle", MediaUser.class);
-//		System.out.println(mUser1.toString());
-//		System.out.println(mediaService.getUserbyId("cr7").toString());
+		MediaUser mUser1 = mongoOperation.findById("walle", MediaUser.class);
+		System.out.println(mUser1.toString());
+		//System.out.println(mediaService.getUserbyId("cr7").toString());
 
 	}
 
@@ -75,7 +81,7 @@ public class SampleApplication {
 //
 //			return new InMemoryUserDetailsManager(greg, ollie);
 //		}
-//		
+		
 		@Bean
 		InMemoryUserDetailsManager userDetailsManager() {
 			ApplicationContext ctx = new AnnotationConfigApplicationContext(MongoConfig.class);
@@ -109,9 +115,9 @@ public class SampleApplication {
 		protected void configure(HttpSecurity http) throws Exception {
 
 			http.httpBasic()
-					// .and().authorizeRequests().antMatchers("/**").permitAll()
-					.and().authorizeRequests().antMatchers("/{username}/delete/**").hasRole("ADMIN").and()
-					.authorizeRequests().antMatchers("/{username}/media/**").hasAnyRole("ADMIN", "USER")
+					 .and().authorizeRequests().antMatchers("/**").permitAll()
+//					.and().authorizeRequests().antMatchers("/{username}/delete/**").hasRole("ADMIN").and()
+//					.authorizeRequests().antMatchers("/{username}/media/**").hasAnyRole("ADMIN", "USER")
 					// .and().authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll()
 					.and().csrf().disable();
 		}

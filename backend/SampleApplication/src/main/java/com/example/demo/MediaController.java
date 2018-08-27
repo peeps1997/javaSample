@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 @CrossOrigin("*")
@@ -34,13 +36,18 @@ public class MediaController {
 	@Autowired
 	MediaService mediaService;
 	@RequestMapping(value = "/{username}/media/save", method = RequestMethod.POST)
-	public void save(@PathVariable("username") String username, @RequestBody MediaFile mfile) throws MalformedURLException {
-		mediaService.addMusicFile(username, mfile);
+	public ResponseEntity<Void> save(@PathVariable("username") String username, @RequestBody MediaFile mfile) throws MalformedURLException {
+		MediaUser mUser = mediaService.addMusicFile(username, mfile);
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path(
+				"/{username}/media/save").buildAndExpand(mfile).toUri();
+	//	System.out.println(mUser.getMedia().toString());
+		return ResponseEntity.created(location).build();
+
 	}
 
 	@RequestMapping(value = "/{username}/media/all", method = RequestMethod.GET)
-	public ResponseEntity<List<MediaFile>> readAll(@PathVariable("username") String username) {
-		return ResponseEntity.status(HttpStatus.OK).headers(getRoleHeader(username)).body(mediaService.getMusic(username));
+	public List<MediaFile> readAll(@PathVariable("username") String username) {
+		return mediaService.getMusic(username);
 	}
 
 	@RequestMapping(value = "/{username}/media/{name}", method = RequestMethod.GET)
@@ -51,13 +58,13 @@ public class MediaController {
 	}
 
 	@RequestMapping(value = "/{username}/delete/{name}", method = RequestMethod.DELETE)
-	public void delete(@PathVariable("username") String username,  @PathVariable("name") String name) {
+	public ResponseEntity delete(@PathVariable("username") String username,  @PathVariable("name") String name) {
 		mediaService.deleteMusicFile(username, name);
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path(
+				"/{username}/delete/{name}").buildAndExpand(username, name).toUri();
+		return ResponseEntity.ok().build();
+		
 	}
 	
-	HttpHeaders getRoleHeader(String username) {
-	HttpHeaders header = new HttpHeaders();
-	header.set("Role",  mediaService.getUserbyId(username).get().getRole());
-	return header;
-	}
+	
 }

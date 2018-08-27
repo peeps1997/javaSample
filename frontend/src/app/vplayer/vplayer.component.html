@@ -1,5 +1,5 @@
 <div class="jumbotron text-center">
-  <h1 (click)="logout()">{{currentUser.id}}</h1>
+  <h1 (click)="logout()">{{currentUser.id | titlecase }}</h1>
 </div>
 <div class="container">
   <div class="row">
