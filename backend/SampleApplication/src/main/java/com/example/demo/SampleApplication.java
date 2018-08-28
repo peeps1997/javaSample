@@ -20,10 +20,9 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.User.UserBuilder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import com.example.demo.*;
 
 @ComponentScan
 @SpringBootApplication
@@ -60,7 +59,6 @@ public class SampleApplication {
 		MediaUser mUser1 = mongoOperation.findById("walle", MediaUser.class);
 		System.out.println(mUser1.toString());
 		//System.out.println(mediaService.getUserbyId("cr7").toString());
-
 	}
 
 	@Configuration
@@ -115,9 +113,9 @@ public class SampleApplication {
 		protected void configure(HttpSecurity http) throws Exception {
 
 			http.httpBasic()
-					 .and().authorizeRequests().antMatchers("/**").permitAll()
-//					.and().authorizeRequests().antMatchers("/{username}/delete/**").hasRole("ADMIN").and()
-//					.authorizeRequests().antMatchers("/{username}/media/**").hasAnyRole("ADMIN", "USER")
+//					 .and().authorizeRequests().antMatchers("/**").permitAll()
+					.and().authorizeRequests().antMatchers("/{username}/delete/**").hasRole("ADMIN").and()
+					.authorizeRequests().antMatchers("/{username}/media/**").hasAnyRole("ADMIN", "USER")
 					// .and().authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll()
 					.and().csrf().disable();
 		}

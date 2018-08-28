@@ -1,53 +1,42 @@
 package com.example.demo;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertEquals;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(value = MediaService.class, secure = false)
 public class MediaServiceTest {
-	@Autowired
-	private MockMvc mockMvc;
-	
 	@MockBean
 	UserRepository userRepository;
 	
-	@Autowired
+	@MockBean
 	MediaService mediaService;
 	
 	@Test
 	public void addMusicFileTest() throws Exception{
+//		MediaService mdService = mock(MediaService.class);
 		List<MediaFile> mfile1 = new ArrayList<MediaFile>();
 		mfile1.add(new MediaFile("Earth",new URL("http://static.videogular.com/assets/videos/videogular.mp4")));	
 		MediaUser mUser1 = new MediaUser("walle", mfile1, "hidden", "ADMIN" );
-		try {
-		System.out.println("INSIDE TRY");
-		Mockito.when(userRepository.findById(Mockito.anyString()).get()).thenReturn(mUser1);}
-		catch(Exception e) {}
+//		System.out.println("INSIDE TRY");
+//		Mockito.when(userRepository.findById(Mockito.anyString()).get()).thenReturn(mUser1);
+		Mockito.when(mediaService.addMusicFile(Mockito.anyString(), Mockito.any(MediaFile.class))).thenReturn(mUser1);
 //		System.out.println(mediaService.addMusicFile("walle", new MediaFile("Bigger Meltdowns",new URL("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4"))));
 		MediaUser mUser2 = mediaService.addMusicFile("walle", new MediaFile("Bigger Meltdowns",new URL("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4")));
 		mfile1.add( new MediaFile("Bigger Meltdowns",new URL("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4")));
 		mUser1 = new MediaUser("walle", mfile1, "hidden", "ADMIN" );
-		assertEquals(mUser1, mUser2);
-		
+		assertEquals(mUser1.toString(), mUser2.toString());	
 	}
 	
 	
@@ -62,7 +51,7 @@ public class MediaServiceTest {
 	}
 	
 	@Test
-	public void getUser() throws MalformedURLException {
+	public void getUsersTest() throws MalformedURLException {
 		List<MediaUser> mfile = new ArrayList<MediaUser>();
 		List<MediaFile> mfile1 = new ArrayList<MediaFile>();
 		mfile1.add(new MediaFile("Earth",new URL("http://static.videogular.com/assets/videos/videogular.mp4")));
@@ -79,5 +68,10 @@ public class MediaServiceTest {
 		Mockito.when(userRepository.findAll()).thenReturn(mfile);
 		System.out.println(mfile);
 		assertEquals(mfile, mediaService.getUsers());
+	}
+	
+	@Test
+	public void deleteMusicFileTest() throws Exception{
+		
 	}
 }

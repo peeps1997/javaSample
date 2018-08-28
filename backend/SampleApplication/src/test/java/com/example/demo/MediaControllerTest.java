@@ -1,16 +1,14 @@
 package com.example.demo;
 
-import static org.junit.Assert.*;
-
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -20,9 +18,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.skyscreamer.jsonassert.JSONAssert;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(value = MediaController.class, secure = false)
@@ -35,7 +30,6 @@ public class MediaControllerTest {
 
 	@Test
 	public void testSave() throws Exception {
-		MediaFile mfile = new MediaFile("Earth",new URL("http://static.videogular.com/assets/videos/videogular.mp4"));
 		String contentMfile = "{\r\n" + 
 				"    \"name\" : \"e1aarth\",\r\n" + 
 				"    \"url\" : \"http://static.videogular.com/assets/videos/videogular.mp4\"\r\n" + 
